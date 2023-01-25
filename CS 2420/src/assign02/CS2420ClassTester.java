@@ -1,17 +1,20 @@
 package assign02;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 /**
  * This class contains tests for CS2420Class.
  * 
- * @author Erin Parker, Ben Jones and ??
- * @version January 23, 2023
+ * @author Erin Parker and ??
+ * @version January 20, 2022
  */
 public class CS2420ClassTester {
 

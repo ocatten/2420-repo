@@ -1,5 +1,7 @@
 package assign02;
 
+import assign01.GrayscaleImage;
+
 /**
  * This class represents a University of Utah student, in which the uNID cannot
  * change once the student is created.  Note that each student's uNID is unique.
@@ -79,8 +81,19 @@ public class UofUStudent {
 	 *         false otherwise
 	 */
 	public boolean equals(Object other) {		
-		// FILL IN -- do not return false unless appropriate
-		return false;
+		if(!(other instanceof UofUStudent)){
+            return false;
+        }		
+		UofUStudent otherStudent = (UofUStudent)other;
+		
+		if(otherStudent.getUNID() == uNID)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	/**
@@ -89,4 +102,5 @@ public class UofUStudent {
 	public String toString() {
 		return this.firstName + " " + this.lastName + " (u" + String.format("%07d", this.uNID) + ")";
 	}
+	
 }

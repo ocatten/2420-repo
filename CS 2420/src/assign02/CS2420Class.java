@@ -12,7 +12,7 @@ import java.util.Scanner;
  * NOTE: The word "Class" in the name of this Java class means a collection of students and should not 
  *       be confused with the Java term class, which is a blueprint for making objects.
  * 
- * @author Erin Parker and ??
+ * @author Erin Parker and Everett Oglesby
  * @version January 20, 2022
  */
 public class CS2420Class {
@@ -34,8 +34,14 @@ public class CS2420Class {
 	 *         false if the student was not added because they already exist in the collection
 	 */
 	public boolean addStudent(CS2420Student student) {
-		// FILL IN -- do not return false unless appropriate
-		return false;
+		for(int i = 0; i < studentList.size(); i++)
+		{
+			if(studentList.get(i).equals(student))
+			{
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	/**
@@ -44,8 +50,15 @@ public class CS2420Class {
 	 * @param uNID - uNID of student to be retrieved
 	 * @return the CS 2420 student with the given uNID, or null if no such student exists in the collection
 	 */
-	public CS2420Student lookup(int uNID) {
-		// FILL IN -- do not return null, unless appropriate
+	public CS2420Student lookup(int uNID) 
+	{
+		for(int i = 0; i < studentList.size(); i++)
+		{
+			if(studentList.get(i).getUNID() == uNID)
+			{
+				return studentList.get(i);
+			}
+		}
 		return null;
 	}
 	
@@ -56,9 +69,18 @@ public class CS2420Class {
 	 * @return a list of the CS 2420 student(s) with the given contact information (in any order), 
 	 * 	     or an empty list if no such students exist in the collection
 	 */
-	public ArrayList<CS2420Student> lookup(EmailAddress contactInfo) {
-		// FILL IN -- do not return null
-		return null;
+	public ArrayList<CS2420Student> lookup(EmailAddress contactInfo) 
+	{
+		ArrayList<CS2420Student> studentsSelected = new ArrayList<CS2420Student>();
+		
+		for(int i = 0; i < studentList.size(); i++)
+		{
+			if(studentList.get(i).getContactInfo() == contactInfo)
+			{
+				studentsSelected.add(studentList.get(i));				
+			}
+		}
+		return studentsSelected;
 	}
 	
 	/**
@@ -71,8 +93,11 @@ public class CS2420Class {
 	 * @param score - the score to be added
 	 * @param category - the category in which to add the score
 	 */
-	public void addScore(int uNID, double score, String category) {
-		// FILL IN
+	public void addScore(int uNID, double score, String category) 
+	{
+		CS2420Student currentStudent = lookup(uNID);
+		
+		currentStudent.addScore(score, category);
 	}
 	
 	/**
@@ -80,9 +105,25 @@ public class CS2420Class {
 	 * 
 	 * @return the average score, or 0 if there are no students in the collection
 	 */
-	public double computeClassAverage() {
-		// FILL IN -- do not return 0, unless appropriate
-		return 0;
+	public double computeClassAverage() 
+	{
+		double averageScore = 0;
+		int classSize = 0;
+		for(int i = 0; i < studentList.size(); i++)
+		{
+			averageScore += studentList.get(i).getScore();
+			classSize ++;
+		}
+		
+		if(classSize <= 0)
+		{
+			return 0;
+		}
+		else
+		{
+			averageScore = averageScore / (double) classSize;
+			return averageScore;
+		}
 	}
 	
 	/**
@@ -90,9 +131,22 @@ public class CS2420Class {
 	 *
 	 * @return the duplicate-free list of contact information, in any order
 	 */
-	public ArrayList<EmailAddress> getContactList() {
-		// FILL IN -- do not return null
-		return null;
+	public ArrayList<EmailAddress> getContactList() 
+	{
+		ArrayList<EmailAddress> emailAddresses = new ArrayList<EmailAddress>();
+		for(int i = 0; i < studentList.size(); i++)
+		{
+			EmailAddress currentEmail = studentList.get(i).getContactInfo();
+			for(EmailAddress email: emailAddresses)
+			{
+				if(email.equals(currentEmail))
+				{
+					continue;
+				}
+			}
+			emailAddresses.add(currentEmail);
+		}
+		return emailAddresses;
 	}
 	
 	/**
