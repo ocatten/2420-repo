@@ -34,13 +34,15 @@ public class CS2420Class {
 	 *         false if the student was not added because they already exist in the collection
 	 */
 	public boolean addStudent(CS2420Student student) {
-		for(int i = 0; i < studentList.size(); i++)
-		{
-			if(studentList.get(i).equals(student))
-			{
+		
+		for(CS2420Student existingStudent : studentList) {
+		
+			if( existingStudent.equals(student) ) {
 				return false;
 			}
+			
 		}
+		studentList.add(student);
 		return true;
 	}
 	
@@ -52,13 +54,14 @@ public class CS2420Class {
 	 */
 	public CS2420Student lookup(int uNID) 
 	{
-		for(int i = 0; i < studentList.size(); i++)
-		{
-			if(studentList.get(i).getUNID() == uNID)
-			{
-				return studentList.get(i);
+		for(CS2420Student student : studentList) {
+			
+			if(student.getUNID() == uNID) {
+				
+				return student;
 			}
 		}
+		
 		return null;
 	}
 	
@@ -69,17 +72,21 @@ public class CS2420Class {
 	 * @return a list of the CS 2420 student(s) with the given contact information (in any order), 
 	 * 	     or an empty list if no such students exist in the collection
 	 */
-	public ArrayList<CS2420Student> lookup(EmailAddress contactInfo) 
-	{
+	public ArrayList<CS2420Student> lookup(EmailAddress contactInfo) {
+		
 		ArrayList<CS2420Student> studentsSelected = new ArrayList<CS2420Student>();
 		
-		for(int i = 0; i < studentList.size(); i++)
-		{
-			if(studentList.get(i).getContactInfo() == contactInfo)
-			{
+		for(int i = 0; i < studentList.size(); i++) {
+			
+			
+			if(studentList.get(i).getContactInfo().equals(contactInfo)) {
+				
+				//System.out.println("found valid contact info"); // Added for testing.
+				
 				studentsSelected.add(studentList.get(i));				
 			}
 		}
+		
 		return studentsSelected;
 	}
 	
@@ -97,7 +104,13 @@ public class CS2420Class {
 	{
 		CS2420Student currentStudent = lookup(uNID);
 		
-		currentStudent.addScore(score, category);
+		if(currentStudent != null) {
+			
+			currentStudent.addScore(score, category);
+		} else {
+			
+			System.out.println("Could not find the category: " + category);
+		}
 	}
 	
 	/**
@@ -111,7 +124,8 @@ public class CS2420Class {
 		int classSize = 0;
 		for(int i = 0; i < studentList.size(); i++)
 		{
-			averageScore += studentList.get(i).getScore();
+			averageScore += studentList.get(i).computeFinalScore();
+			
 			classSize ++;
 		}
 		
@@ -131,20 +145,29 @@ public class CS2420Class {
 	 *
 	 * @return the duplicate-free list of contact information, in any order
 	 */
-	public ArrayList<EmailAddress> getContactList() 
-	{
+	public ArrayList<EmailAddress> getContactList() {
+
 		ArrayList<EmailAddress> emailAddresses = new ArrayList<EmailAddress>();
 		for(int i = 0; i < studentList.size(); i++)
 		{
 			EmailAddress currentEmail = studentList.get(i).getContactInfo();
+			boolean emailFound = false;
+		
 			for(EmailAddress email: emailAddresses)
 			{
 				if(email.equals(currentEmail))
 				{
-					continue;
+					emailFound = true;
 				}
+
+
 			}
-			emailAddresses.add(currentEmail);
+			if(!emailFound)
+			{
+				emailAddresses.add(currentEmail);
+			}
+
+
 		}
 		return emailAddresses;
 	}

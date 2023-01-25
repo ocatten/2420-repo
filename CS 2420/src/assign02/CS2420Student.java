@@ -4,8 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class CS2420Student 
-{
+public class CS2420Student extends UofUStudent {
 	
 	private String firstName;
 	private String lastName;
@@ -26,15 +25,17 @@ public class CS2420Student
 	private double weightedExamScore = 0;
 	private double weightedLabScore = 0;
 	private double weightedQuizScore = 0;
-	double[] weightedScores = new double[] {weightedAssignmentScore,
-			weightedExamScore, weightedLabScore, weightedQuizScore};
+	private double[] weightedScores = new double[] {weightedAssignmentScore, weightedExamScore, weightedLabScore, weightedQuizScore};
+	
 	
 	private double finalScore;
 	private String finalGrade;	
 	
 	
-	public CS2420Student(String firstName, String lastName, int uNID, EmailAddress contactInfo)
-	{
+	public CS2420Student(String firstName, String lastName, int uNID, EmailAddress contactInfo) {
+		
+		super(firstName, lastName, uNID);
+		
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.uNID = uNID;
@@ -81,17 +82,21 @@ public class CS2420Student
 			case "assignment":
 				assignmentScore += score;
 				totalAssignmentScore += 100;
+				break;
 			case "exam":
 				examScore += score;
 				totalExamScore += 100;
+				break;
 			case "lab":
 				labScore += score;
 				totalLabScore += 100;
+				break;
 			case "quiz":
 				quizScore += score;
 				totalQuizScore += 100;
+				break;
 			default:
-				System.out.println("Score does not fit into any valid category.");
+				System.out.println("Score does not fit into any valid category. " + category);
 		}
 		gradeCalculator();
 	}
@@ -101,13 +106,27 @@ public class CS2420Student
 	 * return the final score based on different weights from the CS 
 	 * 2420 syllabus.
 	 */
-	public double computeFinalScore() 
-	{
-		if(examScore < 65)
-		{
-			return examScore;
+	public double computeFinalScore() {
+		
+		this.gradeCalculator();
+		
+		
+		if(weightedExamScore < .65) {
+			
+			return weightedExamScore*100;
 		}
-
+		
+		
+		double[] totalScores = new double[] { totalAssignmentScore, totalExamScore, totalLabScore, totalQuizScore };
+		
+		for(double totalScore : totalScores) {
+			if(totalScore == 0) {
+				
+				return 0;
+			}
+		}
+		
+		
 		//final CS 2420 grade is comprised of assignments (programming and analysis) 40%,
 		// exams 40%, labs 10%, Canvas quizzes 10%
 		finalScore = (weightedAssignmentScore * 40) + (weightedExamScore * 40) 
@@ -136,8 +155,19 @@ public class CS2420Student
 		gradeMap.put(60.0, "D-");
 		gradeMap.put(0.0, "E");
 		
+		double[] totalScores = new double[] { totalAssignmentScore, totalExamScore, totalLabScore, totalQuizScore };
+		
+		for(double totalScore : totalScores) {
+			if(totalScore == 0) {
+				
+				return "N/A";
+			}
+		}
+		
+		computeFinalScore();
 		
         finalGrade = gradeMap.floorEntry(finalScore).getValue();
+        //System.out.println(finalScore); // Added for testing.
         return finalGrade;
 	}
 	

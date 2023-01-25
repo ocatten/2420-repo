@@ -43,23 +43,31 @@ public class CS2420ClassTester {
 	@Test
 	public void testEmptyLookupUNID() {
 		assertNull(emptyClass.lookup(1234567));
+		assertNull(emptyClass.lookup(1010101));
+		assertNull(emptyClass.lookup(4545454));
 	}
 	
 	@Test
 	public void testEmptyLookupContactInfo() {
 		ArrayList<CS2420Student> students = emptyClass.lookup(new EmailAddress("hello", "gmail.com"));
 		assertEquals(0, students.size());
+		assertEquals(0, emptyClass.lookup(new EmailAddress("hi", "gmail.com")).size());
+		assertEquals(0, emptyClass.lookup(new EmailAddress("howdy", "gmail.com")).size());
 	}
 	
 	@Test
 	public void testEmptyAddScore() {
 		// ensure no exceptions thrown
 		emptyClass.addScore(1234567, 100, "assignment");
+		emptyClass.addScore(1010101, 65, "exam");
 	}
 
 	@Test
 	public void testEmptyClassAverage() {
+		
 		assertEquals(0, emptyClass.computeClassAverage(), 0);
+		assertEquals(78.356090909, smallClass.computeClassAverage(), 0.1);
+		
 	}
 	
 	@Test
@@ -83,11 +91,20 @@ public class CS2420ClassTester {
 		ArrayList<CS2420Student> actualStudents = verySmallClass.lookup(new EmailAddress("hello", "gmail.com"));
 		assertEquals(1, actualStudents.size());
 		assertEquals(expectedStudent, actualStudents.get(0));
+		
+		expectedStudent = new UofUStudent("Jane", "Doe", 1010101);
+		actualStudents = verySmallClass.lookup(new EmailAddress("hi", "gmail.com"));
+		assertEquals(1, actualStudents.size());
+		assertEquals(expectedStudent, actualStudents.get(0));
 	}
 	
 	@Test
 	public void testVerySmallAddDuplicateStudent() {
 		boolean actual = verySmallClass.addStudent(new CS2420Student("Jane", "Doe", 1010101, 
+				new EmailAddress("hi", "gmail.com")));
+		assertFalse(actual);
+		
+		actual = verySmallClass.addStudent(new CS2420Student("Drew", "Hall", 2323232, 
 				new EmailAddress("hi", "gmail.com")));
 		assertFalse(actual);
 	}
@@ -96,7 +113,11 @@ public class CS2420ClassTester {
 	public void testVerySmallAddNewStudent() {
 		boolean actual = verySmallClass.addStudent(new CS2420Student("Jane", "Doe", 1010100, 
 				new EmailAddress("hi", "gmail.com")));
-		assertTrue(actual);		
+		assertTrue(actual);
+		
+		boolean actual2 = verySmallClass.addStudent(new CS2420Student("Drew", "Hall", 1010102, 
+				new EmailAddress("hi", "gmail.com")));
+		assertTrue(actual2);	
 	}
 
 	@Test
@@ -105,6 +126,15 @@ public class CS2420ClassTester {
 		student.addScore(86.5, "assignment");
 		student.addScore(75, "exam");
 		student.addScore(89.2, "quiz");
+		
+		student.addScore(88.5, "assignment");
+		student.addScore(77, "exam");
+		student.addScore(85.2, "quiz");
+		
+		student.addScore(88.5, "assignment");
+		student.addScore(77, "exam");
+		student.addScore(85.2, "quiz");
+		
 		assertEquals(0, student.computeFinalScore(), 0);
 	}
 	
@@ -114,6 +144,15 @@ public class CS2420ClassTester {
 		student.addScore(86.5, "assignment");
 		student.addScore(75, "exam");
 		student.addScore(100, "lab");
+		
+		student.addScore(54.5, "assignment");
+		student.addScore(12, "exam");
+		student.addScore(32, "lab");
+		
+		student.addScore(82.3, "assignment");
+		student.addScore(72, "exam");
+		student.addScore(10, "lab");
+		
 		assertEquals("N/A", student.computeFinalGrade());
 	}
 	
@@ -127,6 +166,17 @@ public class CS2420ClassTester {
 		student.addScore(99, "assignment");
 		student.addScore(80, "lab");
 		student.addScore(77.7, "quiz");
+		
+		student.addScore(100, "assignment");
+		student.addScore(100, "assignment");
+		student.addScore(100, "lab");
+		student.addScore(100, "assignment");
+		student.addScore(100, "lab");
+		student.addScore(100, "assignment");
+		student.addScore(100, "quiz");
+		student.addScore(100, "quiz");
+		student.addScore(100, "assignment");
+		
 		assertEquals(55, student.computeFinalScore(), 0.001);
 	}
 	
@@ -140,8 +190,19 @@ public class CS2420ClassTester {
 		student.addScore(99, "assignment");
 		student.addScore(80, "lab");
 		student.addScore(77.7, "quiz");
+		
+		student.addScore(83, "assignment");
+		student.addScore(83, "exam");
+		student.addScore(83, "lab");
+		student.addScore(83.2, "quiz");
+		student.addScore(83, "assignment");
+		student.addScore(83, "lab");
+		student.addScore(73, "quiz");
+		
 		assertEquals("B", student.computeFinalGrade());
 	}
+	
+	
 	
 	@Test
 	public void testVerySmallStudentComputeScoreTwice() {
