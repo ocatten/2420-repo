@@ -15,15 +15,15 @@ import java.util.Scanner;
  * @author Erin Parker and Everett Oglesby
  * @version January 20, 2022
  */
-public class CS2420Class {
+public class CS2420ClassGeneric<Type> {
 
-	private ArrayList<CS2420Student> studentList;
+	private ArrayList<CS2420StudentGeneric> studentList;
 	
 	/**
 	 * Creates an empty CS 2420 class.
 	 */
-	public CS2420Class() {
-		this.studentList = new ArrayList<CS2420Student>();
+	public CS2420ClassGeneric() {
+		this.studentList = new ArrayList<CS2420StudentGeneric>();
 		System.out.println("Clone Test...");
 	}
 	
@@ -34,10 +34,10 @@ public class CS2420Class {
 	 * @return true if the student was added, 
 	 *         false if the student was not added because they already exist in the collection
 	 */
-	public boolean addStudent(CS2420Student student) {
+	public boolean addStudent(CS2420StudentGeneric student) {
 		
 		// Add for 
-		for(CS2420Student existingStudent : studentList) {
+		for(CS2420StudentGeneric existingStudent : studentList) {
 		
 			if( existingStudent.equals(student) ) {
 				return false;
@@ -54,9 +54,9 @@ public class CS2420Class {
 	 * @param uNID - uNID of student to be retrieved
 	 * @return the CS 2420 student with the given uNID, or null if no such student exists in the collection
 	 */
-	public CS2420Student lookup(int uNID) 
+	public CS2420StudentGeneric lookup(int uNID) 
 	{
-		for(CS2420Student student : studentList) {
+		for(CS2420StudentGeneric student : studentList) {
 			
 			if(student.getUNID() == uNID) {
 				
@@ -74,9 +74,9 @@ public class CS2420Class {
 	 * @return a list of the CS 2420 student(s) with the given contact information (in any order), 
 	 * 	     or an empty list if no such students exist in the collection
 	 */
-	public ArrayList<CS2420Student> lookup(EmailAddress contactInfo) {
+	public ArrayList<CS2420StudentGeneric> lookup(Type contactInfo) {
 		
-		ArrayList<CS2420Student> studentsSelected = new ArrayList<CS2420Student>();
+		ArrayList<CS2420StudentGeneric> studentsSelected = new ArrayList<CS2420StudentGeneric>();
 		
 		for(int i = 0; i < studentList.size(); i++) {
 			
@@ -104,7 +104,7 @@ public class CS2420Class {
 	 */
 	public void addScore(int uNID, double score, String category) 
 	{
-		CS2420Student currentStudent = lookup(uNID);
+		CS2420StudentGeneric currentStudent = lookup(uNID);
 		
 		if(currentStudent != null) {
 			
@@ -147,31 +147,31 @@ public class CS2420Class {
 	 *
 	 * @return the duplicate-free list of contact information, in any order
 	 */
-	public ArrayList<EmailAddress> getContactList() {
+	public ArrayList<Type> getContactList() {
 
-		ArrayList<EmailAddress> emailAddresses = new ArrayList<EmailAddress>();
+		ArrayList<Type> contactInfos = new ArrayList<Type>();
 		for(int i = 0; i < studentList.size(); i++)
 		{
-			EmailAddress currentEmail = studentList.get(i).getContactInfo();
-			boolean emailFound = false;
+			Type currentInfo = (Type)studentList.get(i).getContactInfo();
+			boolean infoFound = false;
 		
-			for(EmailAddress email: emailAddresses)
+			for(Type email: contactInfos)
 			{
-				if(email.equals(currentEmail))
+				if(email.equals(currentInfo))
 				{
-					emailFound = true;
+					infoFound = true;
 				}
 
 
 			}
-			if(!emailFound)
+			if(!infoFound)
 			{
-				emailAddresses.add(currentEmail);
+				contactInfos.add(currentInfo);
 			}
 
 
 		}
-		return emailAddresses;
+		return contactInfos;
 	}
 	
 	/**
@@ -201,7 +201,7 @@ public class CS2420Class {
 				// first line: FirstName LastName (u0123456) userName@domainName
 				String line = fileIn.nextLine();
 				lineNumber++;
-				CS2420Student student = parseStudent(line, lineNumber);
+				CS2420StudentGeneric student = parseStudent(line, lineNumber);
 				
 				// second-fifth lines: assignment, exam, lab, and quiz scores
 				for(int i = 0; i < 4; i++) {
@@ -238,7 +238,7 @@ public class CS2420Class {
 	 * @return the CS2420Student constructed from the information
 	 * @throws ParseException if file containing line is not properly formatted (see above)
 	 */
-	private CS2420Student parseStudent(String line, int lineNumber) throws ParseException {
+	private CS2420StudentGeneric parseStudent(String line, int lineNumber) throws ParseException {
 		Scanner lineIn = new Scanner(line);
 		lineIn.useDelimiter(" ");
 
@@ -269,7 +269,7 @@ public class CS2420Class {
 		
 		lineIn.close();
 
-		return new CS2420Student(firstName, lastName, uNID, new EmailAddress(emailAddress[0], emailAddress[1]));
+		return new CS2420StudentGeneric(firstName, lastName, uNID, new EmailAddress(emailAddress[0], emailAddress[1]));
 	}
 	
 	/**
@@ -279,7 +279,7 @@ public class CS2420Class {
 	 * @param category - "assignment", "exam", "lab", or "quiz"
 	 * @param student - the student for which to add the scores
 	 */
-	private void parseScores(String line, String category, CS2420Student student) {
+	private void parseScores(String line, String category, CS2420StudentGeneric student) {
 		Scanner lineIn = new Scanner(line);
 		lineIn.useDelimiter(" ");
 		while(lineIn.hasNextDouble()) 
