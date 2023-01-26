@@ -24,7 +24,6 @@ public class CS2420Class {
 	 */
 	public CS2420Class() {
 		this.studentList = new ArrayList<CS2420Student>();
-		System.out.println("Clone Test...");
 	}
 	
 	/**
