@@ -74,9 +74,9 @@ public class CS2420ClassGeneric<Type> {
 	 * @return a list of the CS 2420 student(s) with the given contact information (in any order), 
 	 * 	     or an empty list if no such students exist in the collection
 	 */
-	public ArrayList<CS2420StudentGeneric> lookup(Type contactInfo) {
+	public ArrayList<CS2420StudentGeneric<Type>> lookup(Type contactInfo) {
 		
-		ArrayList<CS2420StudentGeneric> studentsSelected = new ArrayList<CS2420StudentGeneric>();
+		ArrayList<CS2420StudentGeneric<Type>> studentsSelected = new ArrayList<CS2420StudentGeneric<Type>>();
 		
 		for(int i = 0; i < studentList.size(); i++) {
 			
@@ -174,116 +174,4 @@ public class CS2420ClassGeneric<Type> {
 		return contactInfos;
 	}
 	
-	/**
-	 * Adds the students specified by the input file to the collection of students in CS 2420.
-	 * 
-	 * Assumes a very strict file format:
-	 *     -- first line: FirstName LastName (u0123456) userName@domainName
-	 *     -- second line: assignment scores, separated by blank spaces
-	 *     -- third line: exam scores, separated by blank spaces
-	 *     -- fourth line: lab scores, separated by blank spaces
-	 *     -- fifth line: quiz scores, separated by blank spaces
-	 *     -- sixth line ... : repeat of lines 1-5 for another student
-	 *     
-	 * Also assumes there are no duplicate students in the file.
-	 * 
-	 * @param filename - full or relative path to file containing student data
-	 */
-	public void addAll(String filename) {
-		String[] categories = { "assignment", "exam", "lab", "quiz" };
-		
-		try {
-			Scanner fileIn = new Scanner(new File(filename));
-			int lineNumber = 0;
-
-			while(fileIn.hasNextLine()) {
-				
-				// first line: FirstName LastName (u0123456) userName@domainName
-				String line = fileIn.nextLine();
-				lineNumber++;
-				CS2420StudentGeneric student = parseStudent(line, lineNumber);
-				
-				// second-fifth lines: assignment, exam, lab, and quiz scores
-				for(int i = 0; i < 4; i++) {
-					// make sure there is a next line ...
-					if(!fileIn.hasNextLine()) {
-						fileIn.close();
-						throw new ParseException(categories[i] + " scores ", lineNumber + 1);
-					}
-					
-					line = fileIn.nextLine();
-					lineNumber++;
-					parseScores(line, categories[i], student);
-				}
-				
-				addStudent(student);
-			}  // repeat for more students on sixth+ lines
-			
-			fileIn.close();
-		}
-		catch(FileNotFoundException e) {
-			System.err.println(e.getMessage() + " No students added to CS 2420 class.");
-		}
-		catch(ParseException e) {
-			System.err.println(e.getLocalizedMessage() + " formatted incorrectly at line " + e.getErrorOffset()
-					+ ". No students added to CS 2420 class.");
-		}
-	}
-	
-	/**
-	 * Helper method for parsing the information about a student from file.
-	 * 
-	 * @param line - string to be parsed
-	 * @param lineNumber - line number in file, used for error reporting (see above)
-	 * @return the CS2420Student constructed from the information
-	 * @throws ParseException if file containing line is not properly formatted (see above)
-	 */
-	private CS2420StudentGeneric parseStudent(String line, int lineNumber) throws ParseException {
-		Scanner lineIn = new Scanner(line);
-		lineIn.useDelimiter(" ");
-
-		if(!lineIn.hasNext()) {
-			lineIn.close();
-			throw new ParseException("First name", lineNumber);
-		}
-		String firstName = lineIn.next();
-
-		if(!lineIn.hasNext()) {
-			lineIn.close();
-			throw new ParseException("Last name", lineNumber);
-		}
-		String lastName = lineIn.next();
-
-		if(!lineIn.hasNext()) {
-			lineIn.close();
-			throw new ParseException("uNID", lineNumber);
-		}
-		String uNIDString = lineIn.next();
-		int uNID = Integer.parseInt(uNIDString.substring(2, 9));
-
-		if(!lineIn.hasNext()) {
-			lineIn.close();
-			throw new ParseException("Email address", lineNumber);
-		}
-		String[] emailAddress = lineIn.next().split("@");
-		
-		lineIn.close();
-
-		return new CS2420StudentGeneric(firstName, lastName, uNID, new EmailAddress(emailAddress[0], emailAddress[1]));
-	}
-	
-	/**
-	 * Helper method for parsing the scores for a student from file.
-	 * 
-	 * @param line - string to be parsed
-	 * @param category - "assignment", "exam", "lab", or "quiz"
-	 * @param student - the student for which to add the scores
-	 */
-	private void parseScores(String line, String category, CS2420StudentGeneric student) {
-		Scanner lineIn = new Scanner(line);
-		lineIn.useDelimiter(" ");
-		while(lineIn.hasNextDouble()) 
-			student.addScore(lineIn.nextDouble(), category);
-		lineIn.close();
-	}
 }
