@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Scanner;
 
 
@@ -249,29 +250,6 @@ public class CS2420ClassGeneric<Type> {
 	
 	
 	/**
-	 * Returns the list of CS 2420 students in this class with a final 
-	 * score of at least cutoffScore, sorted by final score in descending order.
-	 * Breaks ties in final scores using uNIDs (ascending order).
-	 *
-	 * @param cutoffScore - value that a student's final score 
-	 * must be at or above to be included in the returned list
-	 */
-	public ArrayList<CS2420StudentGeneric<Type>> getOrderedByScore(double cutoffScore) {
-		ArrayList<CS2420StudentGeneric<Type>> studentListCopy = new ArrayList<CS2420StudentGeneric<Type>>();
-	    for(CS2420StudentGeneric<Type> student : studentList)
-	    {
-	    	if(student.getScore() >= cutoffScore)
-	    	{
-		    	studentListCopy.add(student);
-		    	
-		    	sort(studentListCopy, new OrderByScore());
-	    	}
-	    }
-	    return studentListCopy;
-	}
-	
-	
-	/**
 	 * Performs a SELECTION SORT on the input ArrayList.
 	 *
 	 * 1. Finds the smallest item in the list.
@@ -333,6 +311,31 @@ public class CS2420ClassGeneric<Type> {
 			return lhs.getUNID() - rhs.getUNID();
 	}
 	}
+	
+	
+	/**
+	 * Returns the list of CS 2420 students in this class with a final 
+	 * score of at least cutoffScore, sorted by final score in descending order.
+	 * Breaks ties in final scores using uNIDs (ascending order).
+	 *
+	 * @param cutoffScore - value that a student's final score 
+	 * must be at or above to be included in the returned list
+	 */
+	public ArrayList<CS2420StudentGeneric<Type>> getOrderedByScore(double cutoffScore) {
+		ArrayList<CS2420StudentGeneric<Type>> studentListCopy = new ArrayList<CS2420StudentGeneric<Type>>();
+	    for(CS2420StudentGeneric<Type> student : studentList)
+	    {
+	    	if(student.getScore() >= cutoffScore)
+	    	{
+		    	studentListCopy.add(student);
+		    	
+		    	sort(studentListCopy, new OrderByScore());
+	    	}
+	    }
+	    return studentListCopy;
+	}
+	
+	
 		/**
 		 * Comparator that defines an ordering among CS 2420 students using their FinalScores.
 		 * Tie-breakers are chosen by uNID order.
@@ -343,13 +346,17 @@ public class CS2420ClassGeneric<Type> {
 	 	* Returns a positive value if lhs is larger than rhs.
 	 	* Returns 0 if lhs and rhs are equal.
 	 	*/
+			
 		public int compare(CS2420StudentGeneric<Type> lhs, CS2420StudentGeneric<Type> rhs) {
 			
+			//Find the higher score
+			//Left hand side score larger
 			if (lhs.getScore() > rhs.getScore()) {
-		        return -1;
-		    } 
-			else if (lhs.getScore() < rhs.getScore()) {
 		        return 1;
+		    } 
+			//Right hand side score larger
+			else if (lhs.getScore() < rhs.getScore()) {
+		        return -1;
 		    } 
 			
 	        //if final scores are equal, compare by UNIDs
@@ -359,4 +366,4 @@ public class CS2420ClassGeneric<Type> {
 	        }
 		}
 	}		
-}
+
