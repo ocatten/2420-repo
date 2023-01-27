@@ -84,11 +84,14 @@ public class CS2420ClassGenericTester {
 	@Test
 	public void testEmptyLookupUNID() {
 		assertNull(emptyClass.lookup(1234567));
+		assertNull(emptyClass.lookup(1010101));
 	}
 	
 	@Test
 	public void testEmptyLookupContactInfo() {
 		ArrayList<CS2420StudentGeneric<String>> students = emptyClass.lookup("hello");
+		assertEquals(0, students.size());
+		students = emptyClass.lookup("");
 		assertEquals(0, students.size());
 	}
 	
@@ -227,6 +230,9 @@ public class CS2420ClassGenericTester {
 		assertTrue(actual.contains(new PhoneNumber("801-555-9012")));
 		assertTrue(actual.contains(new PhoneNumber("801-555-3456")));
 		assertTrue(actual.contains(new PhoneNumber("801-555-7890")));
+		assertFalse(actual.contains(new PhoneNumber("434-334-3333")));
+		assertFalse(actual.contains(new PhoneNumber("464-354-3563")));
+		assertFalse(actual.contains(new PhoneNumber("435-534-3433")));
 	}
 		
 	@Test

@@ -1,8 +1,9 @@
 package assign02;
 /**
- * This class holds all the information corresponding to an Email Address object for the information about a student
- * in a CS2420 class. This student is a University of Utah student, and this class inherits from the UofUStudent class
- * accordingly. 
+ * This class holds all the information corresponding to a contactInfo variable of any object type for the information
+ * about a student in a CS2420 class. This student is a University of Utah student, and this class inherits from the
+ * UofUStudent class accordingly. This class is almost identical to CS2420 Student but it replaces the EmailAddress
+ * with the generic type
  * 
  * @author Parker Catten, Everett Oglesby
  * @version 01:20:23 CS-2420-SP2023
@@ -12,12 +13,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class CS2420Student extends UofUStudent {
+public class CS2420StudentGeneric<Type> extends UofUStudent {
 	
 	private String firstName;
 	private String lastName;
 	private int uNID;
-	private EmailAddress contactInfo;
+	private Type contactInfo;
 	
 	private double assignmentScore = 0;
 	private double examScore = 0;
@@ -40,11 +41,11 @@ public class CS2420Student extends UofUStudent {
 	private String finalGrade;	
 	
 	
-	public CS2420Student(String firstName, String lastName, int uNID, EmailAddress contactInfo) {
+	public CS2420StudentGeneric(String firstName, String lastName, int uNID, Type contactInfo) {
 		
 		// Calls the superclass constructor, as the assignment said it extended to the UofUStudent.
 		super(firstName, lastName, uNID);
-		
+				
 		// Sets up the proper fields
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -55,9 +56,9 @@ public class CS2420Student extends UofUStudent {
 	
 	
 	/**
-	 * @return EmailAddress contactInfo
+	 * @return Generic type contactInfo
 	 */
-	public EmailAddress getContactInfo()
+	public Type getContactInfo()
 	{
 		return contactInfo;
 	}
@@ -94,10 +95,10 @@ public class CS2420Student extends UofUStudent {
 	 */
 	public void addScore(double score, String category)
 	{
-		//"assignment", "exam", "lab", or "quiz", if none are found, print an error message.
+		//"assignment", "exam", "lab", or "quiz",
 		switch(category)
 		{
-			case "assignment":
+			case "assignment": 
 				assignmentScore += score; // Adds the total to the variables that track the cumulative score
 				totalAssignmentScore += 100; // Each assignment is out of 100, so the total is adjusted for later averaging
 				break; // Break from each case if it's a find.
@@ -127,6 +128,8 @@ public class CS2420Student extends UofUStudent {
 	 * If the exam score is under 65, return the exam score. If not
 	 * return the final score based on different weights from the CS 
 	 * 2420 syllabus.
+	 * 
+	 * @return: finalScore: The final score weighted to the sections
 	 */
 	public double computeFinalScore() {
 		
@@ -150,19 +153,21 @@ public class CS2420Student extends UofUStudent {
 		// exams 40%, labs 10%, Canvas quizzes 10%
 		finalScore = (weightedAssignmentScore * 40) + (weightedExamScore * 40) 
 				+ (weightedLabScore * 10) + (weightedQuizScore * 10);
-		return finalScore;
-		
+		return finalScore;	
 	}
 	
 	
 	
 	/**
-	 * Computes the final grade based on the final score put into a 
-	 * tree map which marks the given grade at each score.
+	 * If the exam score is under 65, return the exam score. If not
+	 * return the final score based on different weights from the CS 
+	 * 2420 syllabus.
+	 * 
+	 * @return: finalGrade: The final letter grade according to the syllabus
 	 */
-	public String computeFinalGrade()
-	{
-		// Set up the TreeMap according to the syllabus.
+	public String computeFinalGrade() {
+		
+		// TreeMao according to the syllabus grades
 		TreeMap<Double, String> gradeMap = new TreeMap<>();
 		gradeMap.put(93.0, "A");
 		gradeMap.put(90.0, "A-");
@@ -177,23 +182,26 @@ public class CS2420Student extends UofUStudent {
 		gradeMap.put(60.0, "D-");
 		gradeMap.put(0.0, "E");
 		
-		// Creates an array of all of the scores to loop through them
+		// Makes an array of total scores, only to check if any submissions are available in them
 		double[] totalScores = new double[] { totalAssignmentScore, totalExamScore, totalLabScore, totalQuizScore };
-		// For each total score in the array:
+		
+		// Checks each element of that array, and if they don't have a total score to be divided by, it is missing.
 		for(double totalScore : totalScores) {
 			if(totalScore == 0) {
-				// If the total score is 0 (& there are therefore no assignments submitted for a section) return N/A
 				return "N/A";
 			}
 		}
 		
+		// Check the final score
 		computeFinalScore();
 		
-		// Finds the TreeMap value and returns the corresponding letter
+		// Find that TreeMap value for the grade, return it
         finalGrade = gradeMap.floorEntry(finalScore).getValue();
         //System.out.println(finalScore); // Added for testing.
         return finalGrade;
 	}
+	
+	
 	
 	/**
 	 * Creates a weighted grade for each category based on 
@@ -202,11 +210,10 @@ public class CS2420Student extends UofUStudent {
 	 */
 	private void gradeCalculator()
 	{
-		// Each weighted score is the cumulative score gathered by the code, and the total is the number of 
-		//  assignments included in intervals of 100. Each weightedScore is turned into a percentage.
 		weightedAssignmentScore = assignmentScore / totalAssignmentScore;
 		weightedExamScore = examScore / totalExamScore;
 		weightedLabScore = labScore / totalLabScore;
 		weightedQuizScore = quizScore / totalQuizScore;
 	}
+	
 }
