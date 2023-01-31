@@ -309,7 +309,7 @@ public class CS2420ClassGeneric<Type> {
 		    }
 	        //Finally by UNIDs if first and last names match
 			return lhs.getUNID() - rhs.getUNID();
-	}
+		}
 	}
 	
 	
