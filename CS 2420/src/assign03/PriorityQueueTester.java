@@ -28,7 +28,7 @@ public class PriorityQueueTester {
 	public void testInsert() {
 		
 		simplePriorityQueue.insert("D");
-		System.out.println(simplePriorityQueue.data[0]);
+		//System.out.println(simplePriorityQueue.data[0]);
 		//assertEquals("D", simplePriorityQueue.data[0]);
 	}
 }

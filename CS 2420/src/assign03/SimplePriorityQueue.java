@@ -59,13 +59,14 @@ public class SimplePriorityQueue<E> implements PriorityQueue<E>
 	}
 
 	/**
-	 * Inserts the specified elements into this priority queue.
+	 * Inserts the specified element into this priority queue.
 	 * 
-	 * @param coll - the collection of elements to insert
+	 * @param item - the element to insert
 	 */
 	public void insert(E item) {
 		//Find location in array to place item
 		int addedIndex = binarySearch(item);
+		
 		
 		//Create new list thats one larger than the current list to 
 		//place the new item in.
@@ -103,36 +104,71 @@ public class SimplePriorityQueue<E> implements PriorityQueue<E>
 		
 		//Make the new list equal to the current list
 		data = dataAdded;
+		
+		System.out.println("inserted " + data[0].toString());
 	}
 
-	@Override
+	/**
+	 * Inserts the specified elements into this priority queue.
+	 * 
+	 * @param coll - the collection of elements to insert
+	 */
 	public void insertAll(Collection<? extends E> coll) {
 		
 		
 	}
 
-	@Override
+	/**
+	 * Indicates whether this priority queue contains the specified element.
+	 * 
+	 * @param item - the element to be checked for containment in this priority queue
+	 */
 	public boolean contains(E item) {
+		//Loop through each item in the data array and if the item equals 
+		//the item given return true
+		for(E dataItem: data)
+		{
+			if(dataItem.equals(item))
+			{
+				return true;
+			}
+		}
 		
+		//Else return false if no matching item is found
 		return false;
 	}
 
-	@Override
+	/**
+	 * @return the number of elements in this priority queue
+	 */
 	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+		// return the length of the data array
+		return data.length;
 	}
 
-	@Override
+	/**
+	 * @return true if this priority queue contains no elements, false otherwise
+	 */
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
+		
+		//If the data list has no items return true, else return false
+		if(data.length <= 0)
+		{
+			clear();
+			return true;
+		}
 		return false;
 	}
 
-	@Override
+	/**
+	 * Removes all of the elements from this priority queue. The queue will be
+	 * empty when this call returns.
+	 */
 	public void clear() {
-		// TODO Auto-generated method stub
-		
+		//Create new empty list of generic type and set the data list 
+		//equal to this new list
+		E[] dataCleared = (E[]) new Object[0];
+		data = dataCleared;		
 	}
 	
 	
