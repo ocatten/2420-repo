@@ -17,7 +17,7 @@ public class PriorityQueueTester {
 		String[] simpleStringArray = new String[]{"A","B","C"};
 		
 		simpleEmptyPriorityQueue = new SimplePriorityQueue();
-		
+		W
 		simpleSmallPriorityQueue = new SimplePriorityQueue();
 		simpleSmallPriorityQueue.data = simpleStringArray;
 		
