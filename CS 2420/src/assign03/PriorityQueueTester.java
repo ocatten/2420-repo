@@ -9,14 +9,20 @@ import org.junit.jupiter.api.Test;
 
 public class PriorityQueueTester {
 
-	private SimplePriorityQueue simplePriorityQueue;
+	private SimplePriorityQueue simpleEmptyPriorityQueue;
+	private SimplePriorityQueue simpleSmallPriorityQueue;
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		simplePriorityQueue = new SimplePriorityQueue();
-		
-		
 		String[] simpleStringArray = new String[]{"A","B","C"};
+		
+		simpleEmptyPriorityQueue = new SimplePriorityQueue();
+		
+		simpleSmallPriorityQueue = new SimplePriorityQueue();
+		simpleSmallPriorityQueue.data = simpleStringArray;
+		
+		
+		
 	}
 	
 	@Test
@@ -25,10 +31,18 @@ public class PriorityQueueTester {
 	}
 	
 	@Test
-	public void testInsert() {
+	public void testInsertWithEmptyList() {
 		
-		simplePriorityQueue.insert("D");
+		simpleEmptyPriorityQueue.insert("D");
 		//System.out.println(simplePriorityQueue.data[0]);
-		//assertEquals("D", simplePriorityQueue.data[0]);
+		assertEquals("D", simpleEmptyPriorityQueue.data[0]);
+	}
+	
+	@Test
+	public void testInsertWithSmallList() {
+		
+		simpleEmptyPriorityQueue.insert("D");
+		//System.out.println(simplePriorityQueue.data[0]);
+		assertEquals("D", simpleEmptyPriorityQueue.data[0]);
 	}
 }

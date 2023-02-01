@@ -77,8 +77,7 @@ public class SimplePriorityQueue<E> implements PriorityQueue<E>
 		if( data.length == 0 )
 		{
 			//System.out.println("empty array"); // Test statement
-			E[] tempData = (E[]) new Object[] {item};
-			data = tempData;
+			dataAdded = (E[]) new Object[] {item};
 		}
 	
 		for(int i = 0; i < data.length - 1; i++) {
@@ -104,9 +103,8 @@ public class SimplePriorityQueue<E> implements PriorityQueue<E>
 		
 		//Make the new list equal to the current list
 		data = dataAdded;
-		
-		System.out.println("inserted " + data[0].toString());
 	}
+	
 
 	/**
 	 * Inserts the specified elements into this priority queue.
@@ -115,7 +113,58 @@ public class SimplePriorityQueue<E> implements PriorityQueue<E>
 	 */
 	public void insertAll(Collection<? extends E> coll) {
 		
+
+		for(E newItem: coll) {
+			//Find location in array to place item
+			int addedIndex = binarySearch(newItem);
+			
+			//Create new list thats bigger than the current length equal to the 
+			//size of the new list
+			E[] dataAdded =  (E[]) new Object[data.length + coll.size() - 1];
+			int numAdded = 0;
+			
+			/*
+			//If array is empty, create new array with just the item
+			if( data.length == 0 )
+			{
+				//System.out.println("empty array"); // Test statement
+				dataAdded = (E[]) new Object[] {item};
+			}
+			*/
+			
+			
+			for(int i = 0; i < data.length - 1; i++) {
+				dataAdded[i]
+				
+				if(i == addedIndex)
+				{
+					dataAdded[i] = item;
+					//boolean flag to show that the new item has been added
+					ifAdded = true;
+					continue;
+				}
+				// If the item has not been added transfer the list over to the new
+				//list according to the corresponding index
+				else if(!ifAdded) {
+					dataAdded[i] = data[i];
+					continue;
+				}
+				// If the item has been added transfer the list over to the new
+				//list according to the previous index
+				else{
+					dataAdded[i] = data[i-1];
+				}
+			}
+		}
 		
+		
+		
+		
+	
+		
+		
+		//Make the new list equal to the current list
+		data = dataAdded;
 	}
 
 	/**
