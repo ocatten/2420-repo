@@ -105,7 +105,7 @@ public class SimplePriorityQueue<E> implements PriorityQueue<E>
 		data = dataAdded;
 	}
 	
-
+	
 	/**
 	 * Inserts the specified elements into this priority queue.
 	 * 
@@ -113,49 +113,28 @@ public class SimplePriorityQueue<E> implements PriorityQueue<E>
 	 */
 	public void insertAll(Collection<? extends E> coll) {
 		
+		E[] dataAdded =  (E[]) new Object[data.length + coll.size() - 1];
+		//Counter for how many new items have been added to the data list
+		int numAdded = 0;
 
-		for(E newItem: coll) {
-			//Find location in array to place item
-			int addedIndex = binarySearch(newItem);
-			
-			//Create new list thats bigger than the current length equal to the 
-			//size of the new list
-			E[] dataAdded =  (E[]) new Object[data.length + coll.size() - 1];
-			int numAdded = 0;
-			
-			/*
-			//If array is empty, create new array with just the item
-			if( data.length == 0 )
-			{
-				//System.out.println("empty array"); // Test statement
-				dataAdded = (E[]) new Object[] {item};
-			}
-			*/
+
+		for(int i = 0; i < data.length - 1; i++) {
 			
 			
-			for(int i = 0; i < data.length - 1; i++) {
-				dataAdded[i]
-				
-				if(i == addedIndex)
-				{
-					dataAdded[i] = item;
-					//boolean flag to show that the new item has been added
-					ifAdded = true;
-					continue;
-				}
-				// If the item has not been added transfer the list over to the new
-				//list according to the corresponding index
-				else if(!ifAdded) {
-					dataAdded[i] = data[i];
-					continue;
-				}
-				// If the item has been added transfer the list over to the new
-				//list according to the previous index
-				else{
-					dataAdded[i] = data[i-1];
+			for(E newItem: coll) {
+				//Find location in array to place item
+				int addedIndex = binarySearch(newItem);
+				if(i == addedIndex) {
+					data[i] = newItem;
+					numAdded ++;
 				}
 			}
+			
+			dataAdded[i + numAdded] = data[i];
 		}
+		
+		data = dataAdded;
+	}
 		
 		
 		
@@ -163,9 +142,8 @@ public class SimplePriorityQueue<E> implements PriorityQueue<E>
 	
 		
 		
-		//Make the new list equal to the current list
-		data = dataAdded;
-	}
+
+	
 
 	/**
 	 * Indicates whether this priority queue contains the specified element.
@@ -235,7 +213,8 @@ public class SimplePriorityQueue<E> implements PriorityQueue<E>
 		{
 			return 0;
 		}
-		
+		//bouta cry :(
+		// plz save me
 		// Variables to keep track of search parameter indexes
 		int low = 0;
 		int high = data.length - 1;
@@ -243,7 +222,8 @@ public class SimplePriorityQueue<E> implements PriorityQueue<E>
 		
 		// Loop while the search window exists
 		while( low != high ) {
-			
+			mid = (high + low)/2;
+			if(mid == )
 			// Casts the midpoint object to a comparable and compares it to the param
 			int compResult = ( (Comparable<? super E>)data[mid] ).compareTo(item);
 			

@@ -17,7 +17,7 @@ public class PriorityQueueTester {
 		String[] simpleStringArray = new String[]{"A","B","C"};
 		
 		simpleEmptyPriorityQueue = new SimplePriorityQueue();
-		W
+		
 		simpleSmallPriorityQueue = new SimplePriorityQueue();
 		simpleSmallPriorityQueue.data = simpleStringArray;
 		
@@ -41,8 +41,8 @@ public class PriorityQueueTester {
 	@Test
 	public void testInsertWithSmallList() {
 		
-		simpleEmptyPriorityQueue.insert("D");
+		simpleSmallPriorityQueue.insert("D");
 		//System.out.println(simplePriorityQueue.data[0]);
-		assertEquals("D", simpleEmptyPriorityQueue.data[0]);
+		assertEquals("A", simpleEmptyPriorityQueue.data[0]);
 	}
 }

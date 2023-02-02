@@ -9,10 +9,10 @@ public class CS2420ClassTimer
 		Random randomNumberGenerator = new Random();
 		
 		// Do 10000 lookups and use the average running time
-		int timesToLoop = 10000;
+		int timesToLoop = 100000;
 
 		// For each problem size n . . .
-		for(int n = 10000; n <= 100000; n += 10000) {
+		for(int n = 100000; n <= 2000000; n += 100000) {
 			
 			// Generate an array of n uNIDs
 			int[] uNID = new int[n];
