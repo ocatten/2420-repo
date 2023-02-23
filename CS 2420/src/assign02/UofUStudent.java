@@ -1,6 +1,5 @@
 package assign02;
 
-import assign01.GrayscaleImage;
 
 /**
  * This class represents a University of Utah student, in which the uNID cannot
