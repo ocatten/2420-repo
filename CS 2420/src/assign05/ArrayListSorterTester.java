@@ -125,10 +125,9 @@ public class ArrayListSorterTester {
 		ArrayList<Integer> testCase = sorter.generatePermuted(10);
 		ArrayList<Integer> uniqueValues = new ArrayList<Integer>();
 		
+		//Print each variable in the unsorted list to the console
 		for (int i = 0; i < testCase.size(); i++) {
-			
 			System.out.print(testCase.get(i) + " ");
-			//assertEquals(i + 1, testCase.get(i));
 		}
 
 		System.out.println("unsorted merge sort test");
@@ -136,10 +135,12 @@ public class ArrayListSorterTester {
 		
 		sorter.mergesort(testCase);
 		
+		//Print each sorted variable in the unsorted list to the console
 		for (int i = 0; i < testCase.size(); i++) {
 			
 			System.out.print(testCase.get(i) + " ");
-			//assertEquals(i + 1, testCase.get(i));
+			int nextNum = testCase.get(i);
+			assertEquals(i + 1, nextNum);
 		}
 		
 		System.out.println("sorted merge sort test");

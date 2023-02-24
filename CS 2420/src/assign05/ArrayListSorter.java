@@ -26,8 +26,9 @@ public class ArrayListSorter {
 	    ArrayList<T> tempList = new ArrayList<>(arr);
 	    // Sort the new list
 	    sort(tempList, 0, tempList.size() - 1);
-	    System.out.println(tempList.toString() + " temp list");
+	    //System.out.println(tempList.toString() + " temp list");
 	    arr = tempList;
+	    //System.out.println(arr.toString() + "arr");
 	}
 
 	// Helper method for merge sort driver
@@ -55,19 +56,20 @@ public class ArrayListSorter {
 	    ArrayList<T> rightSide = new ArrayList<>(Collections.nCopies(list2, null));
 
  
-        /*Copy data to temp arrays*/
+        //Copy the data from the array to the smaller temp arrays
         for (int i=0; i < list1; ++i)
         	leftSide.set(i, tempList.get(left + i));
         for (int j=0; j < list2; ++j)
         	rightSide.set(j, tempList.get(mid + 1 + j));
  
  
-        /* Merge the temp arrays */
+        //Merge the temp arrays while sorting them
  
-        // Initial indexes of first and second sub-arrays
-        int i = 0, j = 0;
+        // First index of the sub arrays
+        int i = 0;
+        int j = 0;
  
-        // Initial index of merged sub-array array
+        // First index of the merged sub array
         int k = left;
         while (i < list1 && j < list2)
         {
