@@ -38,38 +38,169 @@ public class ArrayListSorter {
 		if (arr.size() <= 1) {
 			return; // If the array is smaller than 2 elements, it's already sorted.
 		}
-		
-		// Calculate the pivot as the middle of the array and instantiate the low/high indexes
-		int low = 0;
-		int high = arr.size() - 1;
-		int pivot = pivotAtMid(arr); // Easily changeable
-		
-		
-		T objAtPivot = arr.get(pivot);
-		// Set the pivot to the end and start making comparisons.
-		Collections.swap(arr, high, pivot);
+
 	
 		Comparator<T> cmp = new Comparator<T>() { // Makes the comparator to make comparisons with.
 			public int compare(T e1, T e2) { return e1.compareTo(e2); } };
 		
-			
-		high = arr.indexOf(objAtPivot) - 1;
-		low = 0;
 		
-		while (low < high) {
+		/*int pivot = pivotAtMid(arr);
+		Collections.swap(arr, arr.size() - 1, pivot);
+		pivot = arr.size() - 1;
+		
+		int rightBound = arr.size() - 2;
+		int leftBound = 0;
+		int high = pivot;
+		int low = 0;	
+		
+		while (rightBound > leftBound) {
+
+			low = leftBound;
+			high = rightBound;
+		
+			while (low <= high) {
 			
-			while (cmp.compare( arr.get(low), arr.get(pivot) ) > 1) {
-				low++;
-				System.out.println(" low not found ");
-			}
-			
-			while (cmp.compare( arr.get(high), arr.get(pivot) ) > 1) {
-				high--;
+				while (cmp.compare( arr.get(low), arr.get(pivot) ) < 1 ) {
 				
-				System.out.println(" high not found ");
+					System.out.println(" low not found " + arr.get(low) + " against " + arr.get(pivot));
+					low++;
+				}
+			
+				System.out.println(" low found " + arr.get(low) + " against " + arr.get(pivot));
+			
+			
+				while (cmp.compare( arr.get(high), arr.get(pivot) ) > -1) {
+				
+				
+					System.out.println(" high not found " + arr.get(high) + " against " + arr.get(high));
+					high--;
+				}
+			
+				System.out.println(" high found " + arr.get(high) + " against " + arr.get(pivot));
+			
+				System.out.print("New array: ");
+				for (int i = 0; i < arr.size(); i++) {
+				
+					System.out.print(arr.get(i) + " ");
+				}
+				
+				if (low == leftBound) {
+					
+					Collections.swap(arr, pivot, low);
+					leftBound++;
+				} else if (high == rightBound) {
+					
+					Collections.swap(arr, pivot, high);
+					rightBound--;
+					
+				}
+				
+				System.out.println();
+			
+				Collections.swap(arr, high, low);	
+			
+			}
+		}*/
+		
+		/*
+		int rightBound = arr.size() - 1;
+		int leftBound = -1;
+		
+		int high = rightBound - 1;
+		int low = leftBound + 1;
+		int pivot = pivotAtMid(arr, high, low);
+		T objAtPivot = arr.get(pivot);
+		System.out.println("fjkdsa");
+		
+		while(leftBound < rightBound) {
+			
+			
+			high = rightBound - 1;
+			low = leftBound + 1;
+			pivot = pivotAtMid(arr, high, low);
+			objAtPivot = arr.get(pivot);
+			Collections.swap(arr, pivot, rightBound);
+			
+			while (low < high) {
+				
+				while (cmp.compare( arr.get(low), objAtPivot ) < 1 ) {
+					//System.out.println(" low not found " + arr.get(low) + " against " + arr.get(pivot));
+					low++;
+				}
+				
+				while (cmp.compare( arr.get(high), objAtPivot ) > -1) {
+					//System.out.println(" high not found " + arr.get(high) + " against " + arr.get(high));
+					high--;
+				}
+				
+				Collections.swap(arr, high, low);	
 			}
 			
-			Collections.swap(arr, high, low);
+			Collections.swap(arr, pivot, high);
+			rightBound--;
+			
+		}*/
+			
+			
+		int leftBound = 0;
+		int rightBound = arr.size() - 1;
+		int high = rightBound - 1;
+		int low = leftBound + 1;
+		
+		
+		T pivot = arr.get(pivotAtMid(arr, 0, arr.size()));
+		//Collections.swap(arr, rightBound, arr.indexOf(pivot));
+		
+		while (leftBound < rightBound) {
+				
+			pivot = arr.get(pivotAtMid(arr, 0, arr.size()-1));
+			System.out.println("pivot: " + pivot);
+			Collections.swap(arr, high, arr.indexOf(pivot));
+			
+			while (low < high) {
+				
+				high = rightBound - 1;
+				low = leftBound + 1;
+				
+				System.out.println("high " + arr.get(high));
+				System.out.println("low " + arr.get(low));
+				
+				while (cmp.compare(arr.get(low), pivot) < 1 && low < high) {
+					System.out.println(" low not found " + arr.get(low) + " against " + pivot);
+					low++;
+				}
+				
+				System.out.println("low found: " + arr.get(low));
+				
+				while (cmp.compare(arr.get(high), pivot) > -1 && low < high) {
+					System.out.println(" high not found " + arr.get(high) + " against " + pivot);
+					high--;
+				}
+				
+				System.out.println("high found: " + arr.get(high));
+				
+				Collections.swap(arr, high, low);
+				
+				System.out.print("New array: ");
+				
+				for (int i = 0; i < arr.size(); i++) {
+					System.out.print(arr.get(i) + " ");
+				}
+				
+				System.out.println();
+			}
+			
+			if (low < rightBound) {
+				Collections.swap(arr, leftBound, arr.indexOf(pivot));
+				rightBound--;
+				System.out.println("rightBound: " + arr.get(rightBound));
+			} else {
+				Collections.swap(arr, leftBound, arr.indexOf(pivot));
+				leftBound++;
+				System.out.println("leftBound: " + arr.get(leftBound));
+			}
+			
+			
 		}
 	}
 	
@@ -82,8 +213,8 @@ public class ArrayListSorter {
 	 * @param arr: List that the method will compute the pivot point for.
 	 * @return int: Index of the pivot.
 	 */
-	private static <T> int pivotAtMid(ArrayList<T> arr) {
-		return arr.size() / 2;
+	private static <T> int pivotAtMid(ArrayList<T> arr, int high, int low) {
+		return (high + low) / 2;
 	}
 	
 	/**
@@ -107,7 +238,7 @@ public class ArrayListSorter {
 	 * @return int: Index of the pivot.
 	 */
 	private static <T> int pivotAtHigh(ArrayList<T> arr) {
-		return arr.size();
+		return arr.size() - 1;
 	}
 	
 	

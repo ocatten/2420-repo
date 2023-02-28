@@ -33,11 +33,11 @@ public class ArrayListSorterTester {
 		
 		for (int i = 0; i < testCase.size(); i++) {
 			
-			System.out.print(testCase.get(i) + " ");
+			//System.out.print(testCase.get(i) + " ");
 			//assertEquals(i + 1, testCase.get(i));
 		}
 		
-		System.out.println();
+		//System.out.println();
 	}
 	
 	
@@ -51,11 +51,11 @@ public class ArrayListSorterTester {
 		
 		for (int i = 0; i < testCase.size(); i++) {
 			
-			System.out.print(testCase.get(i) + " ");
+			//System.out.print(testCase.get(i) + " ");
 			//assertEquals(i + 1, testCase.get(i));
 		}
 		
-		System.out.println();
+		//System.out.println();
 	}
 	
 	
@@ -76,13 +76,13 @@ public class ArrayListSorterTester {
 				assertFalse(testCase.get(i) == uniqueValues.get(j));
 			}
 			
-			System.out.print(testCase.get(i) + " ");
+			//System.out.print(testCase.get(i) + " ");
 			uniqueValues.add(testCase.get(i));
 			
 			assertTrue(1 <= testCase.get(i) && testCase.get(i) <= 10);
 		}
 		
-		System.out.println();
+		//System.out.println();
 	}
 	
 	
@@ -93,6 +93,8 @@ public class ArrayListSorterTester {
 		
 		ArrayListSorter sorter = new ArrayListSorter();
 		ArrayList<Integer> testCase = sorter.generatePermuted(10);
+		
+		
 		ArrayList<Integer> uniqueValues = new ArrayList<Integer>();
 		
 		for (int i = 0; i < testCase.size(); i++) {
@@ -104,13 +106,19 @@ public class ArrayListSorterTester {
 		System.out.println("unsorted ");
 		
 		
-		sorter.quicksort(testCase);
+		Comparator<Integer> cmp = new Comparator<Integer>() { // Makes the comparator to make comparisons with.
+			public int compare(Integer e1, Integer e2) { return e1.compareTo(e2); } };
+		
+	
+			sorter.quicksort(testCase);
 		
 		for (int i = 0; i < testCase.size(); i++) {
 			
 			System.out.print(testCase.get(i) + " ");
 			//assertEquals(i + 1, testCase.get(i));
 		}
+		
+		
 		
 		System.out.println("sorted ");
 	}
