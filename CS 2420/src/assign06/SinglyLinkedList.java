@@ -1,5 +1,6 @@
 package assign06;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -23,6 +24,67 @@ public class SinglyLinkedList<E> implements List<E> {
 		
 	}
 	
+	//Creates a node for the linked list
+	class Node<E>{
+		E data;
+		Node next;
+		
+		public Node(E data) {
+			this.data = data;
+			this.next = null;
+
+		}
+		
+		public E getNodeData() {
+			return this.data;
+		}
+	}
+	
+	//Creates a head and a tail for the node
+	public Node head = null;
+	public Node tail = null;
+	
+	
+	
+	public void addNode(E data) {
+		Node newNode = new Node(data);
+		
+		//Check to see if list is empty
+		if(head==null) {
+			head = newNode;
+			tail = newNode;
+		}
+		
+		else {
+			//If the list is not empty the tail of the next will be
+			//equal to the new node
+			tail.next = newNode;
+			tail = newNode;
+		}
+	}
+
+	public ArrayList<String> nodesToArrayList() {
+		
+		Node temp = head;
+		ArrayList<String> nodes = new ArrayList<String>();
+		
+		if(head != null) {
+			
+			//System.out.print("Nodes: "); // Added to show what the list was doing.
+			while(temp != null) {
+				//System.out.print(temp.data.toString() + " "); // Used for test
+				nodes.add(temp.toString());
+				temp = temp.next;
+			}
+			//System.out.println();
+		}
+		else {
+			System.out.println("List is empty");
+			return null;
+		}
+		
+		return nodes;
+	}
 	
 	
 	@Override
@@ -34,6 +96,21 @@ public class SinglyLinkedList<E> implements List<E> {
 	 */
 	public void insertFirst(E element) {
 		
+		Node newNode = new Node(element);
+		
+		//Check to see if list is empty
+		if(head==null) {
+			head = newNode;
+			tail = newNode;
+		}
+		
+		else {
+			//If the list is not empty the head of the next will be
+			//equal to the new node
+			head.next = head;
+			head = newNode;
+			
+		}
 	}
 
 
@@ -47,7 +124,7 @@ public class SinglyLinkedList<E> implements List<E> {
 	 * @param element - the element to add
 	 * @throws IndexOutOfBoundsException if index is out of range (index < 0 || index > size())
 	 */
-	public void insertFirst(Object element) {
+	public void insert(int index, Object element) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -62,24 +139,9 @@ public class SinglyLinkedList<E> implements List<E> {
 	 * @return the first element in the list
 	 * @throws NoSuchElementException if the list is empty
 	 */
-	public void insert(int index, Object element) throws IndexOutOfBoundsException {
+	public void getFirst(int index, Object element) throws IndexOutOfBoundsException {
 		// TODO Auto-generated method stub
 		
-	}
-
-
-
-	@Override
-	/**
-	 * Gets the first element in the list.
-	 * O(1) for a singly-linked list.
-	 * 
-	 * @return the first element in the list
-	 * @throws NoSuchElementException if the list is empty
-	 */
-	public Object getFirst() throws NoSuchElementException {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 
@@ -93,13 +155,48 @@ public class SinglyLinkedList<E> implements List<E> {
 	 * @return the element at the position
 	 * @throws IndexOutOfBoundsException if index is out of range (index < 0 || index >= size())
 	 */
-	public Object get(int index) throws IndexOutOfBoundsException {
+	public E get(int index) throws NoSuchElementException {
+		
+		
+		int count = 0;
+		Node temp = head;
+		if(index == 0) {
+			return (E)temp.data;
+		}
+		
+		while(temp.next != null) {
+			
+			temp = temp.next;
+			count++;
+			
+			if (index == count) {
+				return (E)temp.data;
+			}
+			
+		}
+		
+		return (E)temp.data;
+		
+	}
+
+
+
+	@Override
+	/**
+	 * Gets the element at a specific position in the list.
+	 * O(N) for a singly-linked list.
+	 * 
+	 * @param index - the specified position
+	 * @return the element at the position
+	 * @throws IndexOutOfBoundsException if index is out of range (index < 0 || index >= size())
+	 */
+	public E deleteFirst(int index) throws IndexOutOfBoundsException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 
-
+	
 	@Override
 	/**
 	 * Deletes and returns the first element from the list.
@@ -155,8 +252,17 @@ public class SinglyLinkedList<E> implements List<E> {
 	 */
 	public int size() {
 
-		// TODO Auto-generated method stub
-		return 0;
+		int count = 0;
+		Node temp = head;
+		if(temp != null) {
+			count ++;
+		}
+		while(temp.next != null) {
+			count++;
+			temp = temp.next;
+		}
+		
+		return count;
 	}
 
 
@@ -187,9 +293,24 @@ public class SinglyLinkedList<E> implements List<E> {
 
 
 	@Override
+	/**
+	 * Generates an array containing all of the elements in this list in proper sequence 
+	 * (from first element to last element).
+	 * O(N) for a singly-linked list.
+	 * 
+	 * @return an array containing all of the elements in this list, in order
+	 */
 	public Object[] toArray() {
-		// TODO Auto-generated method stub
-		return null;
+		Node temp = head;
+		Object[] nodes = new Object[size()];
+		int index = 0;
+		nodes[index] = temp;
+		while(temp.next != null) {
+			index++;
+			nodes[index] = temp.next;
+			temp = temp.next;
+		}
+		return nodes;
 	}
 
 
